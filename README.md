@@ -1,19 +1,34 @@
+rm(list=ls())
+gc()
+
 attach(antisemitism_07)
 
-#define factors
+# defeine factors
 str(antisemitism_07)
 liedetection<- as.factor(liedetection)
 suffering<-as.factor(suffering)
+head(antisemitism_07)
 
 # 1. sample size
 #install.packages("pwr")
 require(pwr)
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
-pwr.anova.test(k=4,f=f(.12),power=.90,sig.level=.05)#η！
+pwr.anova.test(k=4,f=f(.12),power=.90,sig.level=.05) #解释选择那个η的原因
 
 # 2. Anova
+#2.1 Visualizing data
+#label factors
+liedetection<- factor(liedetection,c(0,1),labels = c("Without","With"))
+suffering<-factor(suffering,c(1,2),labels = c("ongoing","limited"))
 
-# 2.1 Two-way interaction plot
+# 2.1.1 Box plot with two factor variables
+boxplot(prejudice ~ suffering*liedetection, frame = FALSE, 
+        col = c("#00AFBB", "#E7B800"), 
+        ylab="prejudice",
+        xlab = "suffering x liedetection")
+
+
+# 2.1.2 Two-way interaction plot
 interaction.plot(x.factor = liedetection, trace.factor = suffering, 
                  response = prejudice, fun = mean, 
                  type = "b", legend = TRUE, 
@@ -26,17 +41,15 @@ table(liedetection, suffering)
 
 # 2.3 Design is unbalanced, so type III is the way to go!
 #install.packages("car")
-my_anova1 <- aov(prejudice ~ suffering * liedetection)
-Anova(my_anova1,type = "III") 
-summary(my_anova1)
-#ANOVA results: statistically insignificant main effects and the interaction effect.
 mod1<-lm(prejudice ~ suffering * liedetection)
 Anova(mod1,type = "III") 
 summary(mod1)
+#ANOVA results: statistically insignificant main effects and the interaction effect.
 
-# 2.4 check model assumptions
-#2.4.1 Homogeneity of variances
-plot(my_anova1, 1)
+
+# 2.4 chack model assumptions
+# 2.4.1 Homogeneity of variances
+plot(mod1, 1)
 
 #Use the Levene’s test to check the homogeneity of variances. The function leveneTest() [in car package] will be used:
 library(car)
@@ -47,13 +60,13 @@ leveneTest(prejudice ~ suffering * liedetection)
 #we can assume the homogeneity of variances in the different treatment groups.
 
 
-#2.4.2 Normality  
+# 2.4.2 Normality  
 #As all the points fall approximately along this reference line, we can assume normality.
-plot(my_anova1, 2)
+plot(mod1, 2)
 
-#Extract the residuals
-aov_residuals <- residuals(object = my_anova1)
-#Run Shapiro-Wilk test
+# Extract the residuals
+aov_residuals <- residuals(object = mod1)
+# Run Shapiro-Wilk test
 shapiro.test(x = aov_residuals )
 
 
@@ -62,7 +75,7 @@ shapiro.test(x = aov_residuals )
 #install.packages("multcompView")
 library("lsmeans")
 library("multcompView")
-posthoc<-lsmeans(my_anova1,
+posthoc<-lsmeans(mod1,
            pairwise~suffering * liedetection,
            adjust="tukey")
 posthoc
