@@ -9,11 +9,11 @@ suffering<-as.factor(suffering)
 #install.packages("pwr")
 require(pwr)
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
-pwr.anova.test(k=4,f=f(.12),power=.90,sig.level=.05)#解释选择那个η的原因
+pwr.anova.test(k=4,f=f(.12),power=.90,sig.level=.05)#η！
 
 # 2. Anova
 
-#2.1 Two-way interaction plot
+# 2.1 Two-way interaction plot
 interaction.plot(x.factor = liedetection, trace.factor = suffering, 
                  response = prejudice, fun = mean, 
                  type = "b", legend = TRUE, 
@@ -21,10 +21,10 @@ interaction.plot(x.factor = liedetection, trace.factor = suffering,
                  pch=c(1,19), col = c("#00AFBB", "#E7B800"))   
 
 
-#2.2 Balanced?
+# 2.2 Balanced?
 table(liedetection, suffering)  
 
-#2.3 Design is unbalanced, so type III is the way to go!
+# 2.3 Design is unbalanced, so type III is the way to go!
 #install.packages("car")
 my_anova1 <- aov(prejudice ~ suffering * liedetection)
 Anova(my_anova1,type = "III") 
@@ -34,7 +34,7 @@ mod1<-lm(prejudice ~ suffering * liedetection)
 Anova(mod1,type = "III") 
 summary(mod1)
 
-#2.4 check model assumptions
+# 2.4 check model assumptions
 #2.4.1 Homogeneity of variances
 plot(my_anova1, 1)
 
@@ -57,7 +57,7 @@ aov_residuals <- residuals(object = my_anova1)
 shapiro.test(x = aov_residuals )
 
 
-#2.5 post-hoc test
+# 2.5 post-hoc test
 #install.packages("lsmeans")
 #install.packages("multcompView")
 library("lsmeans")
