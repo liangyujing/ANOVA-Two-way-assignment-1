@@ -5,8 +5,8 @@ str(antisemitism_07)
 liedetection<- as.factor(liedetection)
 suffering<-as.factor(suffering)
 
-#1. sample size
-# install.packages("pwr")
+# 1. sample size
+#install.packages("pwr")
 require(pwr)
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
 pwr.anova.test(k=4,f=f(.12),power=.90,sig.level=.05)#解释选择那个η的原因
