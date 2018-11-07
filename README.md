@@ -14,6 +14,7 @@ head(antisemitism_07)
 require(pwr)
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
 pwr.anova.test(k=4,f=f(.12),power=.90,sig.level=.05) #解释选择那个η的原因
+
 pwr.2way(k=4,f=f(.12),power=.90,sig.level=.05)
 #pwr.2way(a=3, b=3, alpha=0.05, size.A=4, size.B=5, f.A=0.8, f.B=0.4)
 
