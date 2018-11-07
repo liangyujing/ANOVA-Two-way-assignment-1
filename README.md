@@ -9,14 +9,14 @@ str(antisemitism_07)
 liedetection<- as.factor(liedetection)
 suffering<-as.factor(suffering)
 
-# label factors
+#label factors
 liedetection<- factor(liedetection,c(0,1),labels = c("Without","With"))
 suffering<-factor(suffering,c(1,2),labels = c("ongoing","limited"))
 
 # 1. descriptive statistics
 #install.packages("psych")
 library(psych)
-describe(antisemitism_07,fast=TRUE)
+describe(antisemitism_07,fast=TRUE)                                                                        
 
 # 2. sample size
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
@@ -45,18 +45,20 @@ table(liedetection, suffering)
 mod1<-lm(prejudice ~ suffering * liedetection)
 Anova(mod1,type = "III")
 summary(mod1)
+
+
 #ANOVA results: statistically insignificant main effects and the interaction effect.
 
 #4.3 effect size
 #install.packages("sjstats")
 library(sjstats)
-fit <- mod1
+fit <- Anova(aov(prejudice ~ suffering * liedetection), type='III')
 omega_sq(fit)
 ##The anova_stats() function takes a model input and computes a comprehensive summary,
 #including the above effect size measures, 
-#returned as tidy data frame (as tibble, to be exact):
+#returned as tidy data frame (as tibble, to be exact).
 
-# 5 chack model assumptions
+# 5. chack model assumptions
 #5.1 Homoscedasticity
 plot(mod1, 1)
 #Use the Levene’s test to check the homogeneity of variances. The function leveneTest() [in car package] will be used:
@@ -72,11 +74,11 @@ leveneTest(prejudice ~ suffering * liedetection)
 plot(mod1, 2)
 
 #Extract the residuals
-aov_residuals <- residuals(object = mod1)
+aov_residuals<-residuals(object = mod1)
 #Run Shapiro-Wilk test
 shapiro.test(x = aov_residuals )
 
-# 6 post-hoc test
+# 6. post-hoc test
 #install.packages("lsmeans")
 #install.packages("multcompView")
 library("lsmeans")
