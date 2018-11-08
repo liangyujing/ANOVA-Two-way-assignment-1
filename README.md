@@ -94,5 +94,24 @@ posthoc<-lsmeans(mod1,
 posthoc
 plot(posthoc)
 
+# 7. outlier
+#7.1 boxplot
+boxplot(prejudice)
+boxplot(prejudice, outline = FALSE)
+
+#7.2 Anova_with outlier
+library(car)
+mod1<-lm(prejudice ~ suffering * liedetection)
+Anova(mod1,type = "II")
+summary(mod1)
+
+#7.3 Anova_without outlier
+library(dplyr)
+result <- filter(antisemitism_07,
+                 prejudice<"2.555471349" & prejudice>"-2.445497902")
+mod2<-lm(result,prejudice ~ suffering * liedetection)
+Anova(mod2,type = "II")
+summary(mod2)
+
 
 
