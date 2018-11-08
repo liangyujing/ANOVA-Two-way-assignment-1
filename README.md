@@ -4,7 +4,7 @@ gc()
 setup
 attach(antisemitism_07)
 
-# defeine factors
+# define factors
 str(antisemitism_07)
 liedetection<- as.factor(liedetection)
 suffering<-as.factor(suffering)
@@ -12,8 +12,11 @@ suffering<-as.factor(suffering)
 #label factors
 liedetection<- factor(liedetection,c(0,1),labels = c("Without","With"))
 suffering<-factor(suffering,c(1,2),labels = c("ongoing","limited"))
+gender<-factor(gender,c(1,2),labels = c("male","female"))
 
 # 1. descriptive statistics
+#gender ratio
+table(gender)
 #install.packages("psych")
 library(psych)
 describe(antisemitism_07,fast=TRUE)                                                                        
@@ -40,10 +43,10 @@ interaction.plot(x.factor = suffering, trace.factor = liedetection,
 #4.1 Balanced?
 table(liedetection, suffering)  
 
-#4.2 Design is unbalanced, so type III is the way to go!
+#4.2 Design is unbalanced, so type II is the way to go!
 #install.packages("car")
 mod1<-lm(prejudice ~ suffering * liedetection)
-Anova(mod1,type = "III")
+Anova(mod1,type = "II")
 summary(mod1)
 
 
@@ -52,7 +55,7 @@ summary(mod1)
 #4.3 effect size
 #install.packages("sjstats")
 library(sjstats)
-fit <- Anova(aov(prejudice ~ suffering * liedetection), type='III')
+fit <- Anova(aov(prejudice ~ suffering * liedetection), type='II')
 omega_sq(fit)
 ##The anova_stats() function takes a model input and computes a comprehensive summary,
 #including the above effect size measures, 
