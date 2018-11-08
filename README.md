@@ -45,6 +45,7 @@ table(liedetection, suffering)
 
 #4.2 Design is unbalanced, so type II is the way to go!
 #install.packages("car")
+library(car)
 mod1<-lm(prejudice ~ suffering * liedetection)
 Anova(mod1,type = "II")
 summary(mod1)
