@@ -17,9 +17,9 @@ gender<-factor(gender,c(1,2),labels = c("male","female"))
 # 1. descriptive statistics
 #gender ratio
 table(gender)
-#install.packages("psych")
-library(psych)
-describe(antisemitism_07,fast=TRUE)                                                                        
+#mean, sd
+aggregate(antisemitism_07, list(liedetection,suffering),mean)
+aggregate(antisemitism_07, list(liedetection,suffering), SD)
 
 # 2. sample size
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
