@@ -56,6 +56,7 @@ summary(mod1)
 #4.3 effect size
 #install.packages("sjstats")
 library(sjstats)
+library(car)
 fit <- Anova(aov(prejudice ~ suffering * liedetection), type='II')
 omega_sq(fit)
 ##The anova_stats() function takes a model input and computes a comprehensive summary,
