@@ -61,7 +61,7 @@ omega_sq(fit)
 #including the above effect size measures, 
 #returned as tidy data frame (as tibble, to be exact).
 
-# 5. chack model assumptions
+# 5. check model assumptions
 #5.1 Homoscedasticity
 plot(mod1, 1)
 #Use the Levene’s test to check the homogeneity of variances. The function leveneTest() [in car package] will be used:
