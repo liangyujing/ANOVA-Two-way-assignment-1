@@ -18,7 +18,7 @@ gender<-factor(gender,c(1,2),labels = c("male","female"))
 #gender ratio
 table(gender)
 #mean, sd
-aggregate(antisemitism_07, list(liedetection,suffering),mean)
+aggregate(antisemitism_07, list(liedetection,suffering), mean)
 aggregate(antisemitism_07, list(liedetection,suffering), SD)
 
 # 2. sample size
