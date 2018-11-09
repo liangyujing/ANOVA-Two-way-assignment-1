@@ -19,7 +19,7 @@ gender<-factor(gender,c(1,2),labels = c("male","female"))
 table(gender)
 #mean, sd
 aggregate(antisemitism_07, list(liedetection,suffering), mean)
-aggregate(antisemitism_07, list(liedetection,suffering), SD)
+aggregate(antisemitism_07, list(liedetection,suffering), sd)
 
 # 2. sample size
 f<-function(r_sq){sqrt(r_sq/(1-r_sq))}
@@ -36,7 +36,7 @@ boxplot(prejudice ~ suffering*liedetection, frame = FALSE,
 interaction.plot(x.factor = suffering, trace.factor = liedetection, 
                  response = prejudice, fun = mean, 
                  type = "b", legend = TRUE, 
-                 xlab = "liedetection", ylab="prejudice",
+                 xlab = "suffering", ylab="prejudice",
                  pch=c(1,19), col = c("#00AFBB", "#E7B800"))   
 
 # 4. Anova
@@ -95,23 +95,26 @@ posthoc
 plot(posthoc)
 
 # 7. outlier
-#7.1 boxplot
+#boxplot
 boxplot(prejudice)
 boxplot(prejudice, outline = FALSE)
 
-#7.2 Anova_with outlier
+#Anova_with outlier
 library(car)
 mod1<-lm(prejudice ~ suffering * liedetection)
 Anova(mod1,type = "II")
 summary(mod1)
 
-#7.3 Anova_without outlier
+#Anova_without outlier
 library(dplyr)
 result <- filter(antisemitism_07,
-                 prejudice<"2.555471349" & prejudice>"-2.445497902")
-mod2<-lm(result,prejudice ~ suffering * liedetection)
+                 prejudice>-2.445497902 & prejudice<2.555471349)
+mod2<-lm(data=result,prejudice ~ suffering * liedetection)
 Anova(mod2,type = "II")
 summary(mod2)
+
+
+
 
 
 
