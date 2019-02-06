@@ -1,9 +1,12 @@
 rm(list=ls())
-gc()
 
-setup
-# Import dataset from text(base)
-attach(antisemitism_07)
+# Set your working dir as the current dir
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+# read data csv file
+library("readr")
+my_data <- read_csv("R code/antisemitism_07.csv")
+summary(my_data)
 
 # define factors
 str(antisemitism_07)
