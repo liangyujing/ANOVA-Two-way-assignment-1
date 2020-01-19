@@ -35,7 +35,21 @@ f(.12)
 boxplot(prejudice ~ suffering*liedetection,frame = FALSE, col = c("#00AFBB", "#E7B800"),
         ylab="prejudice",
         xlab = "suffering x liedetection")
-
+#boxplot
+library("dplyr")
+groups <- group_by(my_data_gender_T, valence, membership)
+plot.data <- summarise(groups,
+                       mean = mean(value, na.rm=TRUE),
+                       sd = sd(value, na.rm=TRUE),
+                       n = n(),
+                       se=sd/sqrt(n),
+                       ci = qt(0.975,df=n-1)*se)
+ggplot(plot.data, aes(x=valence, y=mean, fill = membership)) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  ylim(0,7)+
+  geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=.2, position=position_dodge(.9)) +
+  ggtitle("Mean rating by valence and membership")
+  
 
 #3.2 Two-way interaction plot
 interaction.plot(x.factor = suffering, trace.factor = liedetection, 
@@ -43,6 +57,9 @@ interaction.plot(x.factor = suffering, trace.factor = liedetection,
                  type = "b", legend = TRUE, 
                  xlab = "suffering", ylab="prejudice",
                  pch=c(1,19), col = c("#00AFBB", "#E7B800"))   
+
+
+
 
 # 4. Anova
 #4.1 Balanced?
